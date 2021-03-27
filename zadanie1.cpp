@@ -1,17 +1,17 @@
 ﻿#include <iostream>
-#include <exception>
 
-namespace ek {
+
+namespace em {
 
     struct pair {
 
         pair() {
-            this->key = NULL;
+            this->key = 0;
             this->value = nullptr;
 
         }
 
-        pair(unsigned klucz, char *tekst) {
+        pair(long klucz, char *tekst) {
             this->key = klucz;
             this->value = tekst;
         }
@@ -31,20 +31,20 @@ namespace ek {
     };
 }
 
-void add(ek::pair *tab, int tab_size, ek::pair data);
+void add(em::pair *tab, int tab_size, em::pair data);
 
 
-void print(ek::pair *tab, int size);
+void print(em::pair *tab, int size);
 
-void del(ek::pair *tab, int size, int klucz);
+void del(em::pair *tab, int size, int klucz);
 
-bool parser(char *polecenie, ek::pair *tab, int size);
+bool parser(const char *polecenie, em::pair *tab, int size);
 
 int main() {
-#if false
+#if true
     int l_przypadkow = 0;
     int size = 0;
-    bool kon;
+
     char polecenie[20];
 
     std::cin >> l_przypadkow;
@@ -53,29 +53,24 @@ int main() {
         std::cin >> polecenie;
         std::cin >> size;
 
-        auto* tab = new ek::pair[size];
-        for(int j=0; j < size; j++) tab[j] = ek::pair();
-
-
+        auto *tab = new em::pair[size];
+        for (int j = 0; j < size; j++) tab[j] = em::pair();
+        
         do {
             std::cin >> polecenie;
-
-            kon = parser(polecenie, tab, size);
-
-
-        } while (kon);
+        } while (parser(polecenie, tab, size));
 
         delete[] tab;
     }
 #else
     int size = 10;
-    auto *tab = new ek::pair[size];
-    for (int j = 0; j < size; j++) tab[j] = ek::pair();
+    auto *tab = new em::pair[size];
+    for (int j = 0; j < size; j++) tab[j] = em::pair();
 
     print(tab, size);
-    add(tab, size, ek::pair(4, "lol"));
+    add(tab, size, em::pair(4, "lol"));
     print(tab, size);
-    add(tab, size, ek::pair(14, "lel"));
+    add(tab, size, em::pair(14, "lel"));
     print(tab, size);
     del(tab, size, 4);
     print(tab, size);
@@ -86,13 +81,13 @@ int main() {
     return 0;
 }
 
-void add(ek::pair *tab, int tab_size, ek::pair data) {
+void add(em::pair *tab, int tab_size, em::pair data) {
     int index = data.key % tab_size;
 
-    while (!tab[index].is_empty && tab[index].key != data.key){
-           if (index >= tab_size) index = 0;
-            ++index;
-            if(index == data.key % tab_size) throw std::bad_alloc();
+    while (!tab[index].is_empty && tab[index].key != data.key) {
+        if (index >= tab_size) index = 0;
+        ++index;
+        if (index == data.key % tab_size) throw std::bad_alloc();
 
     }
 
@@ -101,7 +96,7 @@ void add(ek::pair *tab, int tab_size, ek::pair data) {
 
 }
 
-void print(ek::pair *tab, int size) {
+void print(em::pair *tab, int size) {
     for (int i = 0; i < size; i++) {
         if (!tab[i].is_empty) {
             std::cout << i << " "
@@ -114,7 +109,7 @@ void print(ek::pair *tab, int size) {
     std::cout << std::endl;
 }
 
-void del(ek::pair *tab, int size, int klucz) //pozniej bo nie umiem
+void del(em::pair *tab, int size, int klucz) //pozniej bo nie umiem
 {
     int index = klucz % size;
 
@@ -125,17 +120,24 @@ void del(ek::pair *tab, int size, int klucz) //pozniej bo nie umiem
 
     while (!tab[index].is_empty) { // what if
         tab[index] = tab[index + 1];
-        if (index == size - 1) tab[size - 1] = ek::pair();
+        if (index == size - 1) tab[size - 1] = em::pair();
         ++index;
     }
 }
 
-bool parser(char *polecenie, ek::pair *tab, int size) {
+bool parser(const char *polecenie, em::pair *tab, int size) {
     switch (polecenie[0]) {
         case 'a': {
-            ek::pair to_add;
+            em::pair to_add;
             std::cin >> to_add.key;
-            std::cin >> to_add.value;
+
+
+            char * temp_str = new char[9];
+            std::cin >> temp_str;
+
+
+            to_add.value = temp_str;
+            delete[] temp_str;
             add(tab, size, to_add);
             break;
         }
@@ -152,8 +154,8 @@ bool parser(char *polecenie, ek::pair *tab, int size) {
         }
         case 's': {
 
-        if(polecenie[1] == 't') return false;
-        // throw bad polecenie
+            if (polecenie[1] == 't') return false;
+            // throw bad polecenie
         }
         default :
             // throw bad polecenie or something
