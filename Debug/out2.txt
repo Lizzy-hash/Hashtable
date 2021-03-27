@@ -1,0 +1,21 @@
+3 13 ala
+
+3 13 ala
+4 23 olek
+
+3 23 olek
+
+2 13 ala
+
+1 23 olek
+2 13 ala
+
+1 23 olek
+
+6 13 ala
+
+2 23 olek
+6 13 ala
+
+2 23 olek
+

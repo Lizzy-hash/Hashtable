@@ -1,0 +1,25 @@
+3 
+size 10 
+add 13 ala 
+print 
+add 23 olek 
+print 
+delete 13 
+print 
+stop 
+size 11 
+add 13 ala 
+print 
+add 23 olek 
+print 
+delete 13 
+print 
+stop 
+size 7 
+add 13 ala 
+print 
+add 23 olek 
+print 
+delete 13 
+print 
+stop 
